@@ -1,8 +1,7 @@
-package com.song.xposed.ui.home;
+package com.song.xposed.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setClass(context, DetailsActivity.class);
-            intent.setData(Uri.fromParts("package", bean.getPackageName(), null));
+            intent.putExtra("app", bean);
             context.startActivity(intent);
         });
     }

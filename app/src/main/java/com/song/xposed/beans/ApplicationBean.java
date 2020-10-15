@@ -1,20 +1,17 @@
 package com.song.xposed.beans;
 
 import android.graphics.drawable.Drawable;
-
-import androidx.annotation.NonNull;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
- * Created by chensongsong on 2020/8/11.
+ * Created by chensongsong on 2020/10/13.
  */
-public class ApplicationBean {
+public class ApplicationBean implements Parcelable {
 
     private String name;
     private String packageName;
-    private String version;
-    private int buildVersion;
     private Drawable icon;
-    private boolean systemApp;
 
     public String getName() {
         return name;
@@ -32,22 +29,6 @@ public class ApplicationBean {
         this.packageName = packageName;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public int getBuildVersion() {
-        return buildVersion;
-    }
-
-    public void setBuildVersion(int buildVersion) {
-        this.buildVersion = buildVersion;
-    }
-
     public Drawable getIcon() {
         return icon;
     }
@@ -56,24 +37,34 @@ public class ApplicationBean {
         this.icon = icon;
     }
 
-    public boolean isSystemApp() {
-        return systemApp;
-    }
-
-    public void setSystemApp(boolean systemApp) {
-        this.systemApp = systemApp;
-    }
-
-    @NonNull
     @Override
-    public String toString() {
-        return "ApplicationBean{" +
-                "name='" + name + '\'' +
-                ", packageName='" + packageName + '\'' +
-                ", version='" + version + '\'' +
-                ", buildVersion=" + buildVersion +
-                ", icon=" + icon +
-                ", systemApp=" + systemApp +
-                '}';
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.packageName);
+    }
+
+    public ApplicationBean() {
+    }
+
+    public ApplicationBean(Parcel in) {
+        this.name = in.readString();
+        this.packageName = in.readString();
+    }
+
+    public static final Parcelable.Creator<ApplicationBean> CREATOR = new Parcelable.Creator<ApplicationBean>() {
+        @Override
+        public ApplicationBean createFromParcel(Parcel source) {
+            return new ApplicationBean(source);
+        }
+
+        @Override
+        public ApplicationBean[] newArray(int size) {
+            return new ApplicationBean[size];
+        }
+    };
 }

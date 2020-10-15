@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.song.xposed.R;
+import com.song.xposed.adapter.HomeAdapter;
 import com.song.xposed.beans.ApplicationBean;
 import com.song.xposed.infos.AppListInfo;
 import com.song.xposed.utils.ThreadPoolUtils;
@@ -15,6 +16,7 @@ import com.song.xposed.utils.ThreadPoolUtils;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -46,6 +48,11 @@ public class HomeFragment extends Fragment {
         });
         setSwipeRefreshLayout();
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private void setSwipeRefreshLayout() {

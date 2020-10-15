@@ -2,7 +2,6 @@ package com.song.xposed.infos;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.song.xposed.beans.ApplicationBean;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by chensongsong on 2020/8/11.
+ * Created by chensongsong on 2020/10/13.
  */
 public class AppListInfo {
 
@@ -24,17 +23,15 @@ public class AppListInfo {
     public static List<ApplicationBean> getAppListInfo(Context context) {
         List<ApplicationBean> list = new ArrayList<>();
         PackageManager packageManager = context.getApplicationContext().getPackageManager();
-        List<PackageInfo> installedPackages = packageManager.getInstalledPackages(0);
-        for (PackageInfo info : installedPackages) {
+        List<ApplicationInfo> applications = packageManager.getInstalledApplications(0);
+        for (ApplicationInfo applicationInfo : applications) {
             ApplicationBean bean = new ApplicationBean();
-            bean.setName(info.applicationInfo.loadLabel(packageManager).toString());
-            bean.setPackageName(info.packageName);
-            bean.setVersion(info.versionName);
-            bean.setIcon(info.applicationInfo.loadIcon(packageManager));
-            bean.setBuildVersion(info.applicationInfo.targetSdkVersion);
-            if ((ApplicationInfo.FLAG_SYSTEM & info.applicationInfo.flags) == 0) {
-                bean.setSystemApp(false);
+            bean.setName(applicationInfo.loadLabel(packageManager).toString());
+            bean.setPackageName(applicationInfo.packageName);
+            bean.setIcon(applicationInfo.loadIcon(packageManager));
+            if ((ApplicationInfo.FLAG_SYSTEM & applicationInfo.flags) == 0) {
                 list.add(bean);
+                return list;
             }
         }
         return list;

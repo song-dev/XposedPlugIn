@@ -4,18 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/activity_horizontal_margin"
-    android:paddingTop="4dp"
+    android:paddingTop="5dp"
     android:paddingEnd="@dimen/activity_horizontal_margin"
-    android:paddingBottom="4dp">
+    android:paddingBottom="5dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView2
         android:id="@+id/imageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:qmui_border_width="0dp"
+        app:qmui_corner_radius="5dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_name"
