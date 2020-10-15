@@ -1,50 +1,47 @@
-package com.song.xposed.provider;
+package com.song.xposed.utils;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/* renamed from: android.support.v7.app.ˊٴ  reason: contains not printable characters */
-class C1188 {
-    /* renamed from: ˉ  reason: contains not printable characters */
-    private static Integer m5473(Boolean bool) {
+public class ValueUtils {
+
+    private static Integer castInt(Boolean bool) {
         if (bool == null) {
             return null;
         }
-        return Integer.valueOf(bool.booleanValue() ? 1 : 0);
+        return bool ? 1 : 0;
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static Object m5474(Object obj, int i) {
-        if (i != 0) {
-            switch (i) {
+    public static Object castObject(Object value, int type) {
+        if (type != 0) {
+            switch (type) {
                 case 1:
-                    return (String) obj;
+                    return (String) value;
                 case 2:
-                    return m5477((String) obj);
+                    return parseSet((String) value);
                 case 3:
-                    return (Integer) obj;
+                    return (Integer) value;
                 case 4:
-                    return (Long) obj;
+                    return (Long) value;
                 case 5:
-                    return (Float) obj;
+                    return (Float) value;
                 case 6:
                     try {
-                        return m5480(obj);
+                        return castBool(value);
                     } catch (ClassCastException e) {
-                        throw new IllegalArgumentException("Expected type " + i + ", got " + obj.getClass(), e);
+                        throw new IllegalArgumentException("Expected type " + type + ", got " + value.getClass(), e);
                     }
                 default:
-                    throw new IllegalArgumentException("Unknown type: " + i);
+                    throw new IllegalArgumentException("Unknown type: " + type);
             }
-        } else if (obj == null) {
+        } else if (value == null) {
             return null;
         } else {
             throw new IllegalArgumentException("Expected null, got non-null value");
         }
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static String m5475(Set<String> set) {
+    public static String castString(Set<String> set) {
         if (set == null) {
             return null;
         }
@@ -56,17 +53,15 @@ class C1188 {
         return sb.toString();
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static Set<String> m5476(Object obj) {
-        return (Set) obj;
+    public static Set<String> castSet(Object obj) {
+        return (Set<String>) obj;
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static Set<String> m5477(String str) {
+    public static Set<String> parseSet(String str) {
         if (str == null) {
             return null;
         }
-        HashSet hashSet = new HashSet();
+        HashSet<String> hashSet = new HashSet<>();
         StringBuilder sb = new StringBuilder();
         int i = 0;
         while (i < str.length()) {
@@ -88,8 +83,7 @@ class C1188 {
         return hashSet;
     }
 
-    /* renamed from: ˏ  reason: contains not printable characters */
-    public static int m5478(Object obj) {
+    public static int parseType(Object obj) {
         if (obj == null) {
             return 0;
         }
@@ -114,19 +108,17 @@ class C1188 {
         throw new AssertionError("Unknown preference type: " + obj.getClass());
     }
 
-    /* renamed from: ˑ  reason: contains not printable characters */
-    public static Object m5479(Object obj) {
-        return obj instanceof Boolean ? m5473((Boolean) obj) : obj instanceof Set ? m5475(m5476(obj)) : obj;
+    public static Object castObject(Object obj) {
+        return obj instanceof Boolean ? castInt((Boolean) obj) : obj instanceof Set ? castString(castSet(obj)) : obj;
     }
 
-    /* renamed from: ᵢ  reason: contains not printable characters */
-    private static Boolean m5480(Object obj) {
+    private static Boolean castBool(Object obj) {
         if (obj == null) {
             return null;
         }
         if (obj instanceof Boolean) {
             return (Boolean) obj;
         }
-        return Boolean.valueOf(((Integer) obj).intValue() != 0);
+        return (Integer) obj != 0;
     }
 }

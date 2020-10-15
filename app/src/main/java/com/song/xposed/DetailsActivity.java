@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.QMUILoadingView;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
@@ -13,6 +14,7 @@ import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 import com.song.xposed.beans.ApplicationBean;
 import com.song.xposed.enums.DetailsEnum;
 import com.song.xposed.infos.HookInfo;
+import com.song.xposed.utils.PreferencesUtils;
 import com.song.xposed.utils.SystemInfoUtils;
 import com.song.xposed.utils.ThreadPoolUtils;
 
@@ -43,7 +45,6 @@ public class DetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> {
-            storageHookInfo();
             finish();
         });
         applicationBean = getIntent().getParcelableExtra("app");
@@ -53,17 +54,20 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void storageHookInfo() {
-
-        hookInfo.toString();
-
+        PreferencesUtils.putString(getApplicationContext(), applicationBean.getPackageName(), hookInfo.toString());
     }
 
     private void initData() {
         ThreadPoolUtils.getInstance().execute(() -> {
-            hookInfo = SystemInfoUtils.getDefaultInfo(getApplicationContext());
+            String value = PreferencesUtils.getString(getApplicationContext(), applicationBean.getPackageName());
+            if (!TextUtils.isEmpty(value)) {
+                hookInfo = JSON.parseObject(value, HookInfo.class);
+            } else {
+                hookInfo = SystemInfoUtils.getDefaultInfo(getApplicationContext());
+            }
             DetailsActivity.this.runOnUiThread(() -> {
-                initGroupListView();
                 loadingView.setVisibility(View.GONE);
+                initGroupListView();
             });
         });
     }
@@ -266,5 +270,11 @@ public class DetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_details, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        storageHookInfo();
     }
 }
