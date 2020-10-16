@@ -4,20 +4,19 @@ import android.util.Log;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class C1810 {
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static void m8133(Class<?> cls, String str, Object obj) {
+public class XposedFieldUtils {
+
+    public static void setStaticObjectField(Class<?> clazz, String fieldName, Object value) {
         try {
-            XposedHelpers.setStaticObjectField(cls, str, obj);
+            XposedHelpers.setStaticObjectField(clazz, fieldName, value);
         } catch (Exception e) {
             Log.e("XposedHelpers", "setStaticObjectField: " + e.getLocalizedMessage(), e);
         }
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static void m8134(Object obj, String str, int i) {
+    public static void setIntField(Object obj, String fieldName, int value) {
         try {
-            XposedHelpers.setIntField(obj, str, i);
+            XposedHelpers.setIntField(obj, fieldName, value);
         } catch (Exception e) {
             Log.e("XposedHelpers", "setStaticObjectField: " + e.getLocalizedMessage(), e);
         }

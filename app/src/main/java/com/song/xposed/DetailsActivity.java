@@ -15,6 +15,7 @@ import com.song.xposed.beans.ApplicationBean;
 import com.song.xposed.enums.DetailsEnum;
 import com.song.xposed.infos.HookInfo;
 import com.song.xposed.utils.PreferencesUtils;
+import com.song.xposed.utils.RandomHelper;
 import com.song.xposed.utils.SystemInfoUtils;
 import com.song.xposed.utils.ThreadPoolUtils;
 
@@ -223,11 +224,11 @@ public class DetailsActivity extends AppCompatActivity {
                 QMUICommonListItemView itemView = (QMUICommonListItemView) v;
                 Toast.makeText(getApplicationContext(), itemView.getText(), Toast.LENGTH_SHORT).show();
                 if (TextUtils.equals(itemView.getText().toString(), DetailsEnum.ANDROID_ID.value)) {
-                    hookInfo.settingsSecureAndroidId = "sss";
+                    hookInfo.settingsSecureAndroidId = RandomHelper.getInstance().randomAndroidId();
                     androidIdItem.setDetailText(hookInfo.settingsSecureAndroidId);
                 } else if (TextUtils.equals(itemView.getText().toString(), DetailsEnum.IMEI.value)) {
-                    hookInfo.telephonyGetDeviceId = "111";
-                    imeiItem.setDetailText("111");
+                    hookInfo.telephonyGetDeviceId = RandomHelper.getInstance().randomTelephonyGetDeviceId();
+                    imeiItem.setDetailText(hookInfo.telephonyGetDeviceId);
                 }
             }
         };

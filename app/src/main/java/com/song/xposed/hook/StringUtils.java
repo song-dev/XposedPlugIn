@@ -1,21 +1,18 @@
 package com.song.xposed.hook;
 
-/* renamed from: android.support.v7.app.ʾˆˏ  reason: contains not printable characters */
-public class C0618 {
-    /* renamed from: ˉ  reason: contains not printable characters */
+public final class StringUtils {
+
     public static String m3373(String str, String str2, String str3) {
         return m3374(str, str2, str3, -1);
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
     public static String m3374(String str, String str2, String str3, int i) {
         return m3375(str, str2, str3, i, false);
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
     private static String m3375(String str, String str2, String str3, int i, boolean z) {
         String str4;
-        if (m3376(str) || m3376(str2) || str3 == null || i == 0) {
+        if (isEmpty(str) || isEmpty(str2) || str3 == null || i == 0) {
             return str;
         }
         if (z) {
@@ -55,13 +52,11 @@ public class C0618 {
         return sb.toString();
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static boolean m3376(CharSequence charSequence) {
+    public static boolean isEmpty(CharSequence charSequence) {
         return charSequence == null || charSequence.length() == 0;
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static boolean m3377(CharSequence charSequence, CharSequence charSequence2) {
+    public static boolean equals(CharSequence charSequence, CharSequence charSequence2) {
         if (charSequence == charSequence2) {
             return true;
         }
@@ -71,12 +66,11 @@ public class C0618 {
         if ((charSequence instanceof String) && (charSequence2 instanceof String)) {
             return charSequence.equals(charSequence2);
         }
-        return C1736.m7915(charSequence, false, 0, charSequence2, 0, charSequence.length());
+        return MatchesUtils.regionMatches(charSequence, false, 0, charSequence2, 0, charSequence.length());
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static boolean m3378(CharSequence charSequence, char... cArr) {
-        if (!m3376(charSequence) && !C1346.m6440(cArr)) {
+    public static boolean isHighSurrogate2(CharSequence charSequence, char... cArr) {
+        if (!isEmpty(charSequence) && !OtherUtils.isEmpty(cArr)) {
             int length = charSequence.length();
             int length2 = cArr.length;
             int i = length - 1;
@@ -98,9 +92,8 @@ public class C0618 {
         return false;
     }
 
-    /* renamed from: ˏ  reason: contains not printable characters */
-    public static boolean m3379(CharSequence charSequence) {
-        if (m3376(charSequence)) {
+    public static boolean isDigit(CharSequence charSequence) {
+        if (isEmpty(charSequence)) {
             return false;
         }
         int length = charSequence.length();
@@ -112,8 +105,7 @@ public class C0618 {
         return true;
     }
 
-    /* renamed from: ˏ  reason: contains not printable characters */
-    public static boolean m3380(CharSequence charSequence, char... cArr) {
+    public static boolean isHighSurrogate(CharSequence charSequence, char... cArr) {
         if (!(charSequence == null || cArr == null)) {
             int length = charSequence.length();
             int i = length - 1;
@@ -136,9 +128,8 @@ public class C0618 {
         return true;
     }
 
-    /* renamed from: ˑ  reason: contains not printable characters */
-    public static boolean m3381(CharSequence charSequence) {
-        if (charSequence == null || m3376(charSequence)) {
+    public static boolean isLowerString(CharSequence charSequence) {
+        if (charSequence == null || isEmpty(charSequence)) {
             return false;
         }
         int length = charSequence.length();
@@ -150,9 +141,8 @@ public class C0618 {
         return true;
     }
 
-    /* renamed from: ᵢ  reason: contains not printable characters */
-    public static boolean m3382(CharSequence charSequence) {
-        if (charSequence == null || m3376(charSequence)) {
+    public static boolean isUpperString(CharSequence charSequence) {
+        if (charSequence == null || isEmpty(charSequence)) {
             return false;
         }
         int length = charSequence.length();

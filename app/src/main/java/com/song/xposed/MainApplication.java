@@ -3,7 +3,7 @@ package com.song.xposed;
 import android.app.Application;
 
 /**
- * Created by chensongsong on 2020/8/11.
+ * Created by chensongsong on 2020/10/16.
  */
 public class MainApplication extends Application implements Thread.UncaughtExceptionHandler {
 
@@ -22,7 +22,7 @@ public class MainApplication extends Application implements Thread.UncaughtExcep
     /**
      * @return 检查XPOSED是否工作
      */
-    public boolean isXposedWork() {
+    public boolean isXposedWorked() {
         return false;
     }
 

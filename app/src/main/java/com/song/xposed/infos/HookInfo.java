@@ -2,7 +2,9 @@ package com.song.xposed.infos;
 
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import androidx.annotation.NonNull;
@@ -10,7 +12,7 @@ import androidx.annotation.NonNull;
 /**
  * Created by chensongsong on 2020/10/14.
  */
-public class HookInfo {
+public class HookInfo implements Serializable {
 
     public String buildDisplay = null;
     public String buildProduct = null;
@@ -37,6 +39,7 @@ public class HookInfo {
     public String buildVersionCodeName = null;
     public String buildVersionSdk = null;
 
+    @JSONField(name = "android.os.SystemProperties.android_id")
     public String settingsSecureAndroidId = null;
 
     public String telephonyGetDeviceId = null;

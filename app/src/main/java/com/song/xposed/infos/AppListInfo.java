@@ -29,7 +29,7 @@ public class AppListInfo {
             bean.setName(applicationInfo.loadLabel(packageManager).toString());
             bean.setPackageName(applicationInfo.packageName);
             bean.setIcon(applicationInfo.loadIcon(packageManager));
-            if ((ApplicationInfo.FLAG_SYSTEM & applicationInfo.flags) == 0) {
+            if ((ApplicationInfo.FLAG_SYSTEM & applicationInfo.flags) == 0 && "com.song.deviceinfo".equals(applicationInfo.packageName)) {
                 list.add(bean);
                 return list;
             }

@@ -1,9 +1,8 @@
 package com.song.xposed.hook;
 
-/* renamed from: android.support.v7.app.יˑʽ  reason: contains not printable characters */
-public class C1736 {
-    /* renamed from: ˉ  reason: contains not printable characters */
-    static boolean m7915(CharSequence charSequence, boolean z, int i, CharSequence charSequence2, int i2, int i3) {
+public final class MatchesUtils {
+
+    static boolean regionMatches(CharSequence charSequence, boolean z, int i, CharSequence charSequence2, int i2, int i3) {
         if (!(charSequence instanceof String) || !(charSequence2 instanceof String)) {
             int length = charSequence.length() - i;
             int length2 = charSequence2.length() - i2;

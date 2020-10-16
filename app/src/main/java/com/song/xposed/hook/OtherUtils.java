@@ -2,8 +2,7 @@ package com.song.xposed.hook;
 
 import java.lang.reflect.Array;
 
-/* renamed from: android.support.v7.app.ˎʾʾ  reason: contains not printable characters */
-public class C1346 {
+public class OtherUtils {
 
     /* renamed from: ʻ  reason: contains not printable characters */
     public static final byte[] f4494 = new byte[0];
@@ -70,9 +69,8 @@ public class C1346 {
         return Array.getLength(obj);
     }
 
-    /* renamed from: ˉ  reason: contains not printable characters */
-    public static boolean m6440(char[] cArr) {
-        return m6439((Object) cArr) == 0;
+    public static boolean isEmpty(char[] cArr) {
+        return m6439(cArr) == 0;
     }
 
     /* renamed from: ˉ  reason: contains not printable characters */
