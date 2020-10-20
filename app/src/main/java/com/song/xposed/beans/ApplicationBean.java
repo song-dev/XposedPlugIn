@@ -7,11 +7,14 @@ import android.os.Parcelable;
 /**
  * Created by chensongsong on 2020/10/13.
  */
-public class ApplicationBean implements Parcelable {
+public class ApplicationBean implements Parcelable, Comparable<ApplicationBean> {
+
 
     private String name;
     private String packageName;
     private Drawable icon;
+    private boolean configured;
+    private String title;
 
     public String getName() {
         return name;
@@ -37,6 +40,44 @@ public class ApplicationBean implements Parcelable {
         this.icon = icon;
     }
 
+    public boolean isConfigured() {
+        return configured;
+    }
+
+    public void setConfigured(boolean configured) {
+        this.configured = configured;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ApplicationBean setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    @Override
+    public int compareTo(ApplicationBean applicationBean) {
+        if (this.isConfigured() == applicationBean.isConfigured()) {
+            return 0;
+        } else if (this.isConfigured()) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationBean{" +
+                "name='" + name + '\'' +
+                ", packageName='" + packageName + '\'' +
+                ", configured=" + configured +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -46,17 +87,21 @@ public class ApplicationBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeString(this.packageName);
+        dest.writeByte(this.configured ? (byte) 1 : (byte) 0);
+        dest.writeString(this.title);
     }
 
     public ApplicationBean() {
     }
 
-    public ApplicationBean(Parcel in) {
+    protected ApplicationBean(Parcel in) {
         this.name = in.readString();
         this.packageName = in.readString();
+        this.configured = in.readByte() != 0;
+        this.title = in.readString();
     }
 
-    public static final Parcelable.Creator<ApplicationBean> CREATOR = new Parcelable.Creator<ApplicationBean>() {
+    public static final Creator<ApplicationBean> CREATOR = new Creator<ApplicationBean>() {
         @Override
         public ApplicationBean createFromParcel(Parcel source) {
             return new ApplicationBean(source);

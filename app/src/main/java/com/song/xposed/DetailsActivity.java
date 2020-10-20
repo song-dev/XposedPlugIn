@@ -1,5 +1,9 @@
 package com.song.xposed;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -19,6 +23,7 @@ import com.song.xposed.utils.RandomHelper;
 import com.song.xposed.utils.SystemInfoUtils;
 import com.song.xposed.utils.ThreadPoolUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -267,6 +272,78 @@ public class DetailsActivity extends AppCompatActivity {
                 .addTo(mGroupListView);
     }
 
+    public void onRunApp(View view) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setPackage(applicationBean.getPackageName());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, 0);
+        if (list.size() > 0) {
+            ResolveInfo ri = list.get(0);
+            String packageName = ri.activityInfo.packageName;
+            String name = ri.activityInfo.name;
+            ComponentName componentName = new ComponentName(packageName, name);
+            intent.setComponent(componentName);
+            startActivity(intent);
+        }
+
+//        LibSuHelper.getInstance().addCommand("monkey -p " + applicationBean.getPackageName() + " -c android.intent.category.LAUNCHER 1", 0, new Shell.OnCommandResultListener() {
+//            @Override
+//            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+//                if (exitCode != 0) {
+//                    Snackbar.make(getApplicationContext(), getString(R.string.start_app_error) + exitCode, Snackbar.LENGTH_LONG).show();
+//                }
+//            }
+//        });
+    }
+
+    public void onClearApp(View view) {
+        PreferencesUtils.remove(getApplicationContext(), applicationBean.getPackageName());
+//        if (wipeDataConfirm) {
+//            wipeDataConfirm = false;
+//            LibSuHelper.getInstance().addCommand("pm clear " + applicationBean.getPackageName(), 0, new Shell.OnCommandResultListener() {
+//                @Override
+//                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+//                    if (exitCode != 0)
+//                        Snackbar.make(mDetailContent, getString(R.string.wipe_data_error) + exitCode, Snackbar.LENGTH_LONG).show();
+//                    else
+//                        Snackbar.make(mDetailContent, R.string.wipe_data_success, Snackbar.LENGTH_LONG).show();
+//                }
+//            });
+//        } else {
+//            wipeDataConfirm = true;
+//            new Timer().schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    if (wipeDataConfirm) {
+//                        Snackbar.make(mDetailContent, "清除数据为敏感操作，请在2秒内连续点击次。", Snackbar.LENGTH_LONG).show();
+//                    }
+//                    wipeDataConfirm = false;
+//                }
+//            }, 2000);
+//        }
+    }
+
+    public void onForceStopApp(View view) {
+
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(Uri.fromParts("package", applicationBean.getPackageName(), null));
+        startActivity(intent);
+
+//        LibSuHelper.getInstance().addCommand("am force-stop " + applicationBean.getPackageName(), 0, (commandCode, exitCode, output) -> {
+//            if (exitCode != 0)
+//                Snackbar.make(mDetailContent, getString(R.string.force_stop_error) + exitCode, Snackbar.LENGTH_LONG).show();
+//            else
+//                Snackbar.make(mDetailContent, R.string.force_stop_success, Snackbar.LENGTH_LONG).show();
+//        });
+    }
+
+    public void onSaveConfig(View view) {
+        storageHookInfo();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_details, menu);
@@ -276,6 +353,5 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        storageHookInfo();
     }
 }

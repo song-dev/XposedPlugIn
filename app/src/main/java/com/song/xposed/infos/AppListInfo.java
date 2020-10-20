@@ -1,13 +1,18 @@
 package com.song.xposed.infos;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import com.song.xposed.beans.ApplicationBean;
+import com.song.xposed.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by chensongsong on 2020/10/13.
@@ -21,6 +26,7 @@ public class AppListInfo {
      * @return
      */
     public static List<ApplicationBean> getAppListInfo(Context context) {
+        Set<String> set = getPreferencesKeySet(context);
         List<ApplicationBean> list = new ArrayList<>();
         PackageManager packageManager = context.getApplicationContext().getPackageManager();
         List<ApplicationInfo> applications = packageManager.getInstalledApplications(0);
@@ -29,12 +35,25 @@ public class AppListInfo {
             bean.setName(applicationInfo.loadLabel(packageManager).toString());
             bean.setPackageName(applicationInfo.packageName);
             bean.setIcon(applicationInfo.loadIcon(packageManager));
-            if ((ApplicationInfo.FLAG_SYSTEM & applicationInfo.flags) == 0 && "com.song.deviceinfo".equals(applicationInfo.packageName)) {
+            if ((ApplicationInfo.FLAG_SYSTEM & applicationInfo.flags) == 0) {
+                bean.setConfigured(set.contains(bean.getPackageName()));
                 list.add(bean);
-                return list;
             }
         }
+        Collections.sort(list);
+        if (!set.isEmpty()) {
+            list.add(0, new ApplicationBean().setTitle("已配置"));
+            list.add(set.size() + 1, new ApplicationBean().setTitle("已安装"));
+        } else {
+            list.add(0, new ApplicationBean().setTitle("已安装"));
+        }
         return list;
+    }
+
+    private static Set<String> getPreferencesKeySet(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.PREFName, Context.MODE_PRIVATE);
+        Map<String, ?> all = preferences.getAll();
+        return all.keySet();
     }
 
 }
