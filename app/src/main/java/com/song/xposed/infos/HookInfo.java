@@ -42,6 +42,7 @@ public class HookInfo implements Serializable {
     @JSONField(name = "android.os.SystemProperties.android_id")
     public String settingsSecureAndroidId = null;
 
+    @JSONField(name = "android.telephony.TelephonyManager.getDeviceId")
     public String telephonyGetDeviceId = null;
     public String telephonyGetDeviceSoftwareVersion = null;
     public String telephonyGetLine1Number = null;

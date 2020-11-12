@@ -112,6 +112,7 @@ public class DeviceMethodHook extends XC_MethodHook {
         }
         if (jSONObject.has("android.telephony.TelephonyManager.getDeviceId") && !jSONObject.optString("android.telephony.TelephonyManager.getDeviceId").isEmpty()) {
             XposedBridgeUtils.hookAllMethods(TelephonyManager.class, "getDeviceId", new ValueMethodHook(jSONObject.optString("android.telephony.TelephonyManager.getDeviceId")));
+            XposedBridgeUtils.hookAllMethods(TelephonyManager.class, "getImei", new ValueMethodHook(jSONObject.optString("android.telephony.TelephonyManager.getDeviceId")));
         }
         if (jSONObject.has("android.telephony.TelephonyManager.getSubscriberId") && !jSONObject.optString("android.telephony.TelephonyManager.getSubscriberId").isEmpty()) {
             XposedBridgeUtils.hookAllMethods(TelephonyManager.class, "hasIccCard", new ValueMethodHook(true));
