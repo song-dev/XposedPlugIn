@@ -26,7 +26,7 @@ public class GeetestHook {
     private static final String PACKAGE_NAME_V2 = "com.geetest.deepknow.demo";
     private static final String PACKAGE_NAME_SE = "com.example.geetestthr";
     private static final String PACKAGE_NAME_SE_ZXYH = "com.geetest.sensebot.demo";
-    private static final String PACKAGE_NAME_SE_ZXYH_2 = "com.geetest.sensebot.demo2";
+    private static final String PACKAGE_NAME_SE_ZXYH_2 = "com.tencent.wework";
 
     public GeetestHook(XC_LoadPackage.LoadPackageParam lpparam) {
 

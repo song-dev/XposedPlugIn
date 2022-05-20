@@ -70,6 +70,7 @@ public class HookInfo implements Serializable {
 
     public String systemCpuInfo = null;
     public String systemLanguage = null;
+    public boolean json = false;
 
     @NonNull
     @Override

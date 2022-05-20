@@ -21,7 +21,8 @@ public enum DetailsEnum {
     LANGUAGE("语言"),
     DPI("DPI"),
     ANDROID_ID("AndroidID"),
-    UA("UA");
+    UA("UA"),
+    JSON("JSON");
 
     public String value;
 

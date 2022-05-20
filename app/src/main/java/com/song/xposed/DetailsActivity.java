@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -224,6 +225,16 @@ public class DetailsActivity extends AppCompatActivity {
                 QMUICommonListItemView.ACCESSORY_TYPE_NONE,
                 height);
 
+        QMUICommonListItemView jsonItem = mGroupListView.createItemView(DetailsEnum.JSON.value);
+        jsonItem.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_SWITCH);
+        jsonItem.getSwitch().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(getApplicationContext(), "checked = " + isChecked, Toast.LENGTH_SHORT).show();
+                // 存储日志
+            }
+        });
+
         View.OnClickListener onClickListener = v -> {
             if (v instanceof QMUICommonListItemView) {
                 QMUICommonListItemView itemView = (QMUICommonListItemView) v;
@@ -234,6 +245,8 @@ public class DetailsActivity extends AppCompatActivity {
                 } else if (TextUtils.equals(itemView.getText().toString(), DetailsEnum.IMEI.value)) {
                     hookInfo.telephonyGetDeviceId = RandomHelper.getInstance().randomTelephonyGetDeviceId();
                     imeiItem.setDetailText(hookInfo.telephonyGetDeviceId);
+                } else if (TextUtils.equals(itemView.getText().toString(), DetailsEnum.JSON.value)) {
+                    ((QMUICommonListItemView) v).getSwitch().toggle();
                 }
             }
         };
@@ -269,6 +282,7 @@ public class DetailsActivity extends AppCompatActivity {
                 .addItemView(dpiItem, onClickListener)
                 .addItemView(androidIdItem, onClickListener)
                 .addItemView(uaItem, onClickListener)
+                .addItemView(jsonItem, onClickListener)
                 .addTo(mGroupListView);
     }
 
